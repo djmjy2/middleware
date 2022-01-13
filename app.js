@@ -1,8 +1,34 @@
 import { createStore } from './redux.js';
 import * as Actions from './actions.js';
 import reducer from './reducer.js';
+import { ASYNC_INCREASE_COUNTER, SET_COUNTER } from './action-type.js';
 
-const store = createStore(reducer);
+const middleware1 = store => dispatch => action => {
+  console.log('middle1 =>', action);
+  dispatch(action);
+};
+
+const middleware2 = store => dispatch => action => {
+  console.log('middle2 =>', action);
+  if (action.type === SET_COUNTER) {
+    action.payload = 100;
+  }
+  dispatch(action);
+};
+
+const middleware3 = store => dispatch => action => {
+  console.log('middle3 =>', action);
+  if (action.type === ASYNC_INCREASE_COUNTER) {
+    setTimeout(() => {
+      dispatch(Actions.increase());
+    }, 1000);
+  } else {
+    dispatch(action);
+  }
+};
+
+
+const store = createStore(reducer, [middleware1, middleware2, middleware3]);
 
 const counterDisplay = document.querySelector('#counter');
 const btnIncrease = document.querySelector('#btn-increase');
