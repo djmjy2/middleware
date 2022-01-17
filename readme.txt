@@ -1,0 +1,1 @@
+리덕스 미들웨어를 사용하면서 action이 dispatch된 후 reducer에서 해당 action을 받아 update하기전에 추가작업을 할 수 있게되었다 
